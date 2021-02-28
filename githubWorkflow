@@ -48,3 +48,26 @@ Clones the repository to your local machine
             //fetches the latest version of remote repo and merges it with local master, this can create a three way merge is they have diverged or fast forward if they haven't.
         § git pull -rebase 
             //this rebases the local master branch on top of the remote origin/master - so the base of the local master branch becomes whatever the latest remote branch snapshop is. 
+
+
+--git push--
+    Push allows you to updated your remote repository with the new commits made on your local repository. 
+        § git push 
+            //this will push your master branch to the origin/master branch 
+        § git push origin/master master 
+            //this does exactly the same thing but it allows you to specify which remote branch and which local branch you want, in case you don't want to push the master to the origin/master by default. 
+    --my push got rejected?--
+        This would be because someone else made a push before you, and you haven't fetched the latest version from the remote repo to your local one. Therefore your histories have evolved differently and git prevents you from ovewriting someone elses work.
+            --how to resolve?--
+                § git push -f 
+                    //NEVER do this as it will overwrite the commits made by other people since your last fetch. Only ever do this if you are explicitely overwriting some mistaked made, and even then, you don't have to use this method. 
+                § git pull 
+                    //this will fetch and merge the latest commits from the remote repo which do not exist in your local branch. 
+                § git push // now push will work
+
+--remote tags--
+    § git push origin TAGNAME
+        //this will push the tagName to github, but will not mess with any commits. It will simply apply the tagName to the correct commit in the remote repository. 
+    § git push origin --delete TAGNAME
+        //this will remove the tag from the remote repository
+            note: you still have to remove it from local repo.
