@@ -1,0 +1,154 @@
+--create a new branch--
+    git branch branchName
+
+--to see all branches--
+    git branch
+
+--to see current branch--
+    git status
+
+--to change branch--
+    git switch branchName
+
+--to create and switch to a branch in one step--
+    git switch -C branchName
+
+--to rename branch name--
+    git branch -m originalBranchName newBranchName
+
+--to delete branch--
+    git branch -d branchName
+
+--view commits which exist in branch but do not exist in master--
+    git log master..branchName
+
+--view differences between master and branch--
+    git diff master..branchName // shows differences in terminal
+    git difftool master..branchName // shows differences in vscode //It will display one file at a time. 
+    git diff --name-status branchName // shows which files will be modified in the master branch when the merge occurs. 
+
+--to merge a branch--
+    1. switch to master branch with $ git switch master
+    $ git merge targetBranchName //this will merge the target branch with the master branch
+
+--view all branches which have been erged into master--
+    $ git branch --merged
+--view all branches which have not been merged--
+    $ git branch --no-merged
+
+--To abort a merge--
+    $ git merge --abort
+
+--STASHING--
+Let's say that you're working in your master branch, and you make a change to a file without commiting it. Then you need to quickly switch to a different branch. If you haven't comited the changes you made on your master branch, switching to another branch will delete any uncommited changes you've made. Therefore you need to eitehr commit them before switching branches, or stash them. Stashing allows you to keep your changes without committing them, so that when you come back to the master brancher, you can continue where you left of. 
+    NOTE: You can save more than one stash, and each stash can be referenced by an index.
+
+--to create a stash--
+    $ git stash push -am "message about what these changesa are all about." //stashes your local changes temporarily 
+--to view the currently saved stashes--
+    $ git stash list //view your stash list
+    $ git stash show 1 // displays stash with index of 1 - The newest stash will always be at index 0
+--apply stash to working directory--
+    $ git stash apply indexNum // applies stash to working directory. 
+--to remove a stash-- 
+    //should be done after applying the stash you need to working directory.
+    $ git stash drop indexNum // removes the stash with indexNum
+    $ git stash clear // to remove all stashes
+
+
+--MERGING--
+
+--Fast-Forward Merge--
+    If there is a linear path between the master (source) branch and the target branch you want to merge, a fast forward merge is the quickest and simplest method to use. This is simply rebranding the target branch as the master branch, so no copying has to take place. In other
+        Let's assume I create a topic branch named speedup from the current master branch. After working on this 'topic' branch for a while (three commits), I finally decide that I am done and I want to merge it with the master branch. Meanwhile, nothing else happened in the master branch, it remained in the same state right before I branched off. This is when a linear path between the master branch and the target branch is possible, therefore a fast-forward merge would be ideal.
+
+--Three-way Merges-- (AKA Merge Commit)
+    If branches have diverged. E.G:
+        If I create a branch of the master branch (let's call it signupform branch), and I add 3 commits to the signupform branch. During that time at least one commit was added to the master branch, then the two branches have diverged, at which point git has to do a 3-way merge in order to merge all of the changes together and combine it into one master branch. 
+
+--Squash Merging--
+    This is useful when you don't want to keep track of the history of merges. Let's say you created a new branch to make a few minor changes and don't necesarrily need to track that it was a different branch. You can simply squash merge, which will merge the branches as normal, but when you look at the history, there won't be any indication of a merge, it will look like you made a regular new commit on to master. 
+        § git merge --squash branchName //this put the branches files insi the staging area.
+        § git commit -m "message" //commits the changes from the branch that you squashed merged. 
+        § git branch -D branchName //git will throw an error because it dosen't think you've merged the branch with master (even though you have), so you need to use capital D to force delete.
+
+
+--to merge a branch--
+    It's always the current HEAD branch that receives the changes, so make sure your HEAD is on the master branch:
+        1. switch to master branch with $ git switch master
+        $ git merge targetBranchName //this will merge the target branch with the master branch
+
+TIPS:
+When viewing commit history, use the following:
+    $ git log --oneline --all --graph //this will display more details about branches that were made and committed, if they were not fast forward merges. 
+
+After merging a branch, you shoudl DELETE it so it doesn't get confusing! 
+    $ git switch master 
+    $ git merge branchName
+    $ git branch -d branchName //deletes the branch
+
+--No Fast Forward Merge / merge commit--
+        When doing a fast forward merge, git doesn't give you any indication that you merged two branches because it simply appends the master title to the target branch. This might not be ideal when viewing history of your project and wanted a clear indication for when merges were made. Therefore it may be ideal to do a --no-ff merge which will create a new commit to the master, and the commit will append the changes from the target branch to the master branch. In addition, if you wanted to revert back to the version of the project prior to the merging, you would have to revert back all of the commits that were made in the branch. However if you use the --no-ff option, you only have to revert back to the version prior to the merge commit - In other words, if we use a merge commit, there is a single commit that we have to revert in order to go back to the state prior to the merge, however if you use a fastforward merge, you'll have to revert the number of commits that were made in the branch. 
+        --to create a no fast forward commit--
+            $ git merge --no-ff targetBranchName 
+                Then you can run the following command to clearly see the timeline of when the merge was done:
+                    $ git log --oneline --all --graph
+        --you can config git to always do a --no-ff merge by using the following command:
+        $ git config ff no //will disable only in current repository
+        $ git config --global ff no //will disable fast forward merges globally
+
+
+--Merge Conflicts--
+    These happen when a three-way merge is attepted, however there is conflicting information in files between the two branches:
+        CONFLICTS:
+            - Same line of code has been changed in two branches.
+            - If a given file is changed in branch1 but deleted in the other.
+            - The overal content of a file is different between the branches. 
+    When a merge confict appears, you have to go through the following steps:
+        - $ git status //this displays which files have Conflicts
+        - $ code fileName //open each conflicted file in vscode and edit the conflicts manually //unless VSCode opens automatically
+        - $ git add . //add the new files that you edited to index
+        - $ git commit -m // leave out the message option and just commit changes with default message
+    --You cna also abort a merge--
+    $ git merge --abort
+
+        
+--RESET A COMMIT (only for local repo)--
+    $ git reset --hard HEAD~1 //you can also use the ID
+        This way, using "HEAD~1", you're telling Git to go back to the commit before the current HEAD revision — which should be the commit before the merge!
+    --Hard / mixed / Soft--
+        Soft: local working directory and staging area changes not affected but revert HEAD to a previous snapshot/commit
+        Hard: local / staging area and master/HEAD will be converted to the previous snapshot/commit
+        mixed: any changes in local working directory not affected but the staging area and master branch is reverted to a previous snapshot. 
+--REVERT A COMMIT (for non local repo)--
+    The reset example above is useful when you have NOT already pushed the merge to a remote repository. In such a case, you should consider a different solution. git revert will make sure that a new commit is created to revert the effects of that unwanted merge (so it will show up smply as a new commit). This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
+        Command:
+            $ git revert -m 1 <merge-commit-hash>
+                Options:
+                    -m 1 = master branch / -m 2 = targetBranch
+                        The -m 1 option tells Git that we want to keep the parent side of the merge (the master branch we had merged into), not the targetBranch.
+                    for the git reset example above, we had to provide the commit before the merge; when using git revert, however, we have to specify the actual merge commit's hash/id.
+
+
+--REBASE--
+Rebase is useful for keeping an easy to read linear history with your repo. 
+    What does Rebase do?
+        Let's say you have a 'feature' branch and a master branch, and they have diverged as commits have been made to both. You can rebase the 'feature' branch to the master branch so that it's starting point is changed to point to the latest commit of the master branch. Therefore if you were to merge them together, git would only need to do a fast-forward merge. 
+            - § git switch 'featureBranch'
+            - § git rebase master
+            - § resolve any conflicts by opening the conflicting files.
+            - § git rebase --continue //resumes the reubase
+            - § git rebase --skip //skips the current conflicts 
+            - § git rebase --abort //aborts the rebase alltogether. 
+
+
+
+--bringing a commit from another branch into the master branch--
+    This is useful if you've made multiple commits to another branch, but want to bring only certain of those commits to the master branch. 
+        § git cherry-pick COMMITID/Hash //cherry pick adds files to staging area
+        § git commit 
+
+-bringing a single file from another branch to the master branch--
+    § git restore --source=BranchName -- FILENAME.extension //this will add the selected file ot the index/staging area
+    § git add fileName //stages the change
+    § git commit

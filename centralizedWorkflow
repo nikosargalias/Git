@@ -1,0 +1,50 @@
+Centralized Workflow:
+
+--push--
+Send your commits to the central repository.
+
+--pull--
+Bring in any unsynchronised commits from the centralised repo into your local repo that isn't synchronised in your local repo. You must resolve conflicts (if any), and push your resolved conflits to the centralised repo. 
+
+
+--Intergration-Manager Workflow--
+    In this workflow, there is a maintainer of the main repository that reviews all the work done by contributors (other devs), and only the maintainer can push changes to the main repository. 
+    How it works?
+    - The main repository is forked (copied) in the cloud
+    - Then each contributor clones the forked repository to their local machines
+    - Then they push any changes to the forked repository. 
+    - Then the constributor sends a pull request to the maintainer of the project.
+        This is so that the maintainer can be notified that there are changes in the forked repo that they need to review.
+    - Finally the maintainer reviews changes in the forked repo and pushes them to the main repo if they are happy with them. 
+
+--fork--
+Copies the main repository in the cloud
+
+--clone--
+Clones the repository to your local machine
+    to clone a repo copy the URL from the code button on github and paste in terminal:
+        § git clone URL //clones the github repo whenever your current directory is (use cd to change)
+        § git clone URL customName //same as above but choses a custom name for the local copy
+
+//Remote Repos & Branches
+--git remote--
+    § git remote -v //shows the remote repositories on github
+
+--see differences between latest git branch and local master branch--
+    § git log --vv
+
+--fetch+merge--
+--if remote repo has newer commits which are not on local repo--
+    If commits have been made on the remote repository branch which have not been made on the local repository branch, then you need before you push (commit) your changes to the remote branch, you need to merge the newer remote branch with your local branch. You do this with the following command:
+        § git fetch //fetches the latest commit and assigns it to the origin/master branch
+        § git branch -vv //shows how many commits the local master branch is behind the remote one
+        § git switch master //switch to master
+        § git merge origin/master //there is a local branch under the name origin/master which always references the latest snapshop of the remote repository, so you simply have to merge that to your local one. 
+
+--git pull--
+    Pull effectively fetches and merges in one command rather than having to fetch the latest version of remote repo and then merge it. 
+    There are two options with pull:
+        § git pull 
+            //fetches the latest version of remote repo and merges it with local master, this can create a three way merge is they have diverged or fast forward if they haven't.
+        § git pull -rebase 
+            //this rebases the local master branch on top of the remote origin/master - so the base of the local master branch becomes whatever the latest remote branch snapshop is. 

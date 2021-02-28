@@ -1,0 +1,17 @@
+Press cmd+shift+p (ctrl+shift+p on Windows) and type > Gitlens: Show Welcome View and hit enter. This will bring back the GitLens on sidebar. Then click on GitLens icon in sidebar and you will be shown a welcome page similar to screenshot below:
+enter image description here
+
+Click on Welcome (Quick Setup), this will open the below screen:
+enter image description here
+
+Scroll to the bottom and then select the view named GITLENS LAYOUT among the two options given:
+enter image description here
+
+Now click on Close button in GitLens menu that is opened next to VS Code sidebar:
+enter image description here
+
+And your GitLens is back!
+
+
+//link with info:
+https://stackoverflow.com/questions/52575341/gitlens-extension-disappeared#:~:text=Press%20cmd%20%2B%20shift%20%2B%20p%20(,back%20the%20GitLens%20on%20sidebar.

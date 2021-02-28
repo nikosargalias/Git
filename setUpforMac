@@ -1,0 +1,205 @@
+--Quick Select Files--
+$ . //period selects all of the files in a directory, unless they are in .gitignore file
+$ *.js //this would select all JS files in a directory, can also be used with any file extension (.css, .txt etc)
+
+//To set up VSC as Path:
+    press (Shift + Command + P) and type Install "code"
+    Select:
+        Shell Command: Install 'code' command in 'PATH'
+        Install it.
+
+after that… run commands on terminal for config git with new editor:
+    $ git config --global core.editor "code --wait"
+    $ git config --global -e
+
+--Initializing Git REPO--
+    first you have to initialise a git repository with the following:
+    - go to the folder you want the repository
+    - in terminal, type git init
+
+--to add a folder via the terminal--
+    mkdir folderName
+
+--to add a file via the terminal type exactly this--
+    echo 'first line of content" > file name // do not include quotation marks
+
+--to modify a files content via the terminal--
+    echo 'text to append' >> file name // do not include quotation marks
+
+--Config VSC for difftool--
+    git config --global diff.tool vscode
+    git config --global difftool.vscode.cmd "code --wait $LOCAL $REMOTE"
+    git config --global -e // open git config file to check it did it correctly
+
+--to open git config file--
+    git config --global -e
+
+
+--What is an untracked file?--
+    A file that has not been staged or commited yet
+    Git automatically starts tracking any file that is staged or commited. 
+        NOTE: if you stage a file for the first time, and then unstage it without commiting, then git will stop tracking it. 
+
+
+--Using Git--
+Create repository  
+    git init
+
+tracking
+By default, git tracks all the files in the directory which you initialised a git repo. Therefore any files you want git to ignore, you have to add them to the gitignore file as mentioned below. 
+
+--adding files to staging area--
+git add fileName 
+    It is much more convenient to add files to the staging area using the following command:
+        git add . // the period adds all files in the directory to the staging area for commiting. However, some of the files, you won't want to be added, and therefore you have to create a .gitignore file for git to ignore them.
+
+Create gitignore file
+    echo logs/ > .gitignore
+    type all the files you want git to ignore inside the gitignore file:
+    code .gitignore //opens .gitignore in VSCode
+    stage and commit .gitignore
+    git add .gitignore
+    commit -m "added .gitignore"
+
+    There is one caveat. If you add a file to gitignore, after it has already been added to your repository (commited once already), then git will still be tracking it. Therefore, to stop git from tracking those files even after they've been added to the .gitignore file, you  have to remove the file from the staging area with the following command:
+        git rm --cached -r FILENAME //for folders/directories
+        git rm --cached FILENAME //for regular files
+
+    --git doc explenation--
+    If you want to ignore a file that is already checked in, you must untrack the file before you add a rule to ignore it. From your terminal, untrack the file.
+       git rm --cached FILENAME
+
+
+--get diff--
+Compares working directory against staging area // displays nothing if there is no difference
+
+--compare changes in VSCode with difftool--
+    git difftool // compares workring directory against staging area
+    git difftool --staged //compares last commit with staging area
+    --compare differences between selected commits--
+    git difftool HEAD~2 HEAD //displays differences between the last commit and the third to last commit
+    git difftool HEAD~2 HEAD FILENAME.extension //same as above but only for chosen file.
+    git difftool HEAD~2 HEAD --name-only //shows list of files that have been changed
+    git difftool HEAD~2 HEAD --name-status //shows type of change in files (M, A), modification, Addded/New
+
+--look at history of commits--
+    git log //displays detailed information about all commits
+    git log --oneline //The most convenient way to see information about your previous commits
+    git log --oneline --reversed // Same as above but shows the frst commit at the top
+    git log --oneline --stat // shows all the commits and all the files that were changed in each commit.
+    git log --oneline -3 //shows the last 3 commits 
+    git log --oneline --author="NAME" //shows the commits submitted by named author
+    git log --oneline --after="2020-08-01" //shows all the commits submitted from 1st August 2020 onwards.
+    git log --oneline --grep="word" //shows all commits whch include the "word" in its commit message
+    git log --oneline -S"hello()" //shows all commits which added/removed hello() function in their content.
+        git log --oneline -S"hello()" --patch //It shows you in details which file added/removed hello()
+    git log --oneline commitID..CommitID2 //shows all commits between the two commit ids you passed
+    git log --oneline -- FILENAME.extention //shows all commits that modified FILENAME
+    git log --oneline --patch FILENAME.extention //shows all commits that modified FILENAME in detail
+
+--Customise your git log results--
+    git log --pretty="format:""
+        inside the format string you have the follwoing options:
+            %an //auto name
+            %H //full hash of each commit
+            %h //short/abreviated version of hash
+            %cd //commit date
+            %CcolorName //append this before any option to change the color it displays it with.
+
+--viewing commits in detail
+    git show commitID (you can type as little as the first 4 characters of the id, and it will display the commit)
+    git show HEAD // shows detailed last commit
+    git show HEAD~1 // shows the second to last commit in detail
+    git show HEAD~2 // shows the third to last commit etc..
+
+--to see all the files that exist with a commit--
+        git ls-tree HEAD~1 //of course you can list any num on HEAD to see different commits
+            NOTE// Files are represented with the word 'blob' and folders are represented with 'tree'
+
+--to see the contents of file from a commit--
+    Take the ID of any file or folder from the git ls-tree command (shows above), and use it in the following command to display the contents of a file:
+        git show HEAD~1:FILENAME || HEAD~1:FilePath
+        or
+        git show FILEID  
+
+--to see all the people who contributed to the project--
+$ git shortlog
+$ git shortlog -h //to see all options for shortlog output
+
+
+--RESTORE / UNDO--
+    $ git restore--
+        By default, the git restore command will discard any local, uncommitted changes in the corresponding files and thereby restore their last committed state or staged state. 
+    $ git restore --staged FILENAME
+        With the --staged option, however, the file will only be removed from the Staging Area - but its actual modifications in your local system will remain untouched.
+    $ git restore --source=HEAD~1 FILENAME //instead of HEAD~1, you can specify any comit you want.
+        Restores a specific revision of the file. By default, the file will be restored to its last committed state (or simply be unstaged). The --source option, however, allows you to restore the file at a specific revision.
+
+--Git Clean--
+git clean -f //deletes all files that files is not tracked yet. 
+git clean -f FILENAME //deletes the specified file if it is not tracked
+    Let's say you've programmed yourself into a dead end and want to start over, with a clean working copy. git reset --hard is a classic command in this situation - but it will only discard changes in tracked files (i.e. files that already are under version control).
+        To get rid of new / untracked files, you'll have to use git clean!
+    --Tips--
+    Untracked files, by definition, aren't included in version control - and this means that when you delete them, you will not be able to restore them!
+        So as a first step you should use the "dry run" functionality using the "-n" flag which will display the files that will be removed:
+        $ git clean -n
+    To actually allow git clean to delete files in your working copy, you'll have to use the "force" option:
+        $ git clean -f
+            If you want to only delete untracked files in a certain subdirectory of your project, you can additionally specify a path:
+        $ git clean -f folder/subfolder
+            By default, folders themselves will no be deleted. If you want to include them, you can use the "-d" flag:
+        $ git clean -fd
+            In some situations, you might also - in addition to untracked files - want to delete any ignored files. An example use case for this could be when you want to clean out a folder that contains build artifacts. Using the "-x" flag allows you to include ignored items:
+        $ git clean -fx
+
+
+--Create git terminal Preset/alias--
+git config --global alias.PRESETNAME "gitCommands" //Here is an example:
+    git config --global alias.lg "log --pretty=format:'%an committed %h'" 
+        //This would allow you to type git lg in order to get the result of git log --pretty=format:'%an committed %h'
+    Another example:
+    git config --global alias.unstage "restore --staged ." //Now you can type git unstage in order to unstage all of the files from the staging area. 
+
+
+--What is HEAD?--
+It is the commit which your current working directory is on. Your working directory may not be on the lastest master commit state, it may be in a previous commit state for reviewing purposes as mentioned below:
+--Checking your project in a previous commit snapshot--
+    IMPORTANT NOTE -- This will restore your working directory to a snapshop of a previous commit. You should NOT make a commit when in this state, it should only be used to view a previous state and perhpas make experimental changes. 
+        After using this, you can use git log --oneline --all to see where HEAD is (which commit your currently on) and where the master commit is.
+            $ git checkout COMMITID //changes your directory to the current commits snapshop
+            $ git checkout master //reverts back to your master branch. 
+--RESTORING A DELETED FILE USING CHECKOUT--
+    If you delete a file but want it back, you can use checkout to restore a file from a previous commit and the commit the changes. 
+    $ git log --oneline -- FILENAME 
+        //this logs all the commits which included that file, and shows you an ID which references each commit
+    $ git checkout COMMITID FILENAME/FILEPATH //this restores only the specific file, not the entire state of your project.
+    $ git commit -am "restored fileNAME from previosu commit" 
+
+
+--Finding Bugs Using Bisect--
+If you find a bug in your project, you can quickly figure out which commit introduced the bug with the following commands:
+    $ git bisect start //use this to start the bisect operation. 
+    $ git bisect bad //use this to tell git that the current commit you're on is bad 
+    $ git bisect good COMMITID //use this to tell git which commit didn't include the bug (maybe a few commits prior to the last one) 
+        //Note: You can use git checkout as mentioned above to checkout a previous commit to see if it had the bug, but you must do this before starting bisect. 
+    git will now change the current working directories state (the HEAD) to one in the middle between the bad and good listed commits. You need to inspect this commit, and check if it contains the bug or not. 
+        If current commit good: $ git bisect good
+        If current commit bad: $ git bisect bad
+            Now git will change your HEAD to another commit to test. It will keep repeating this until you have identified exactly which commit cause the bug, at which point you will type:
+            $ git bisect reset
+        Final Note: git will not make any changes to any commits, but it will help you identify which commit cause the bug, at which point you can manually view the differences and fix it. 
+
+--Finding author who made commits to certain file--
+    git blame FILENAME.extension
+    git blame -e FILENAME.extension //also displays authors email
+    git blame -e -L 1,3 FILENAME.extension //displays only the first 3 lines edited by author in terminal
+
+--Tagging Commits In Our Project--
+Tagging is great to keep track of different versions of our software. E.G:
+    The commit which marks the state of the project when it was first released can be tagged v1.0
+    $ git tag v1.0 //tags the current commit your on with 'v1.0'
+    $ git tag v1.0 COMMITID //tags the commit listed by ID with v1.0
+        You can also reference commits via the tag E.G:
+            git checkout v1.0 //you can use v1.0 instead of the commit ID.
+    $ git tag -d v1.0 //deletes the tag name from the commit with tag v1.0

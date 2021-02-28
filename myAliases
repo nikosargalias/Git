@@ -1,0 +1,2 @@
+§ git logoag
+    //git config alias.logoag "log --oneline --all --graph"
