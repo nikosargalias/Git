@@ -27,13 +27,20 @@ after that… run commands on terminal for config git with new editor:
     echo 'text to append' >> file name // do not include quotation marks
 
 --Config VSC for difftool--
-    git config --global diff.tool vscode
-    git config --global difftool.vscode.cmd "code --wait $LOCAL $REMOTE"
-    git config --global -e // open git config file to check it did it correctly
+    § git config --global diff.tool vscode
+    § git config --global difftool.vscode.cmd "code --wait $LOCAL $REMOTE"
+    § git config --global -e // open git config file to check it did it correctly
 
 --to open git config file--
-    git config --global -e
+    § git config --global -e
 
+--rename a file with git--
+    § git mv fileName newFileName  
+        //if you don't put git in the beginning, then you will have to stage the old file and the renamed file in order for git to recognise it. As it sees the renamed file as a new file and the old named file as a deleted file. However by using the git mv file, it recognises that you simply renamed a file and you don't have to stage anything.
+
+--delete a file with git--
+    § git rm fileName.extension
+        //if you don't put git in the beginning, then you will have to stage the deleted file in order for git to recognise it.
 
 --What is an untracked file?--
     A file that has not been staged or commited yet
@@ -43,59 +50,59 @@ after that… run commands on terminal for config git with new editor:
 
 --Using Git--
 Create repository  
-    git init
+    § git init
 
 tracking
 By default, git tracks all the files in the directory which you initialised a git repo. Therefore any files you want git to ignore, you have to add them to the gitignore file as mentioned below. 
 
 --adding files to staging area--
-git add fileName 
+§ git add fileName 
     It is much more convenient to add files to the staging area using the following command:
-        git add . // the period adds all files in the directory to the staging area for commiting. However, some of the files, you won't want to be added, and therefore you have to create a .gitignore file for git to ignore them.
+        § git add . // the period adds all files in the directory to the staging area for commiting. However, some of the files, you won't want to be added, and therefore you have to create a .gitignore file for git to ignore them.
 
 Create gitignore file
     echo logs/ > .gitignore
     type all the files you want git to ignore inside the gitignore file:
     code .gitignore //opens .gitignore in VSCode
     stage and commit .gitignore
-    git add .gitignore
+    § git add .gitignore
     commit -m "added .gitignore"
 
     There is one caveat. If you add a file to gitignore, after it has already been added to your repository (commited once already), then git will still be tracking it. Therefore, to stop git from tracking those files even after they've been added to the .gitignore file, you  have to remove the file from the staging area with the following command:
-        git rm --cached -r FILENAME //for folders/directories
-        git rm --cached FILENAME //for regular files
+        § git rm --cached -r FILENAME //for folders/directories
+        § git rm --cached FILENAME //for regular files
 
     --git doc explenation--
     If you want to ignore a file that is already checked in, you must untrack the file before you add a rule to ignore it. From your terminal, untrack the file.
-       git rm --cached FILENAME
+       § git rm --cached FILENAME
 
 
 --get diff--
 Compares working directory against staging area // displays nothing if there is no difference
 
 --compare changes in VSCode with difftool--
-    git difftool // compares workring directory against staging area
-    git difftool --staged //compares last commit with staging area
+    § git difftool // compares workring directory against staging area
+    § git difftool --staged //compares last commit with staging area
     --compare differences between selected commits--
-    git difftool HEAD~2 HEAD //displays differences between the last commit and the third to last commit
-    git difftool HEAD~2 HEAD FILENAME.extension //same as above but only for chosen file.
-    git difftool HEAD~2 HEAD --name-only //shows list of files that have been changed
-    git difftool HEAD~2 HEAD --name-status //shows type of change in files (M, A), modification, Addded/New
+    § git difftool HEAD~2 HEAD //displays differences between the last commit and the third to last commit
+    § git difftool HEAD~2 HEAD FILENAME.extension //same as above but only for chosen file.
+    § git difftool HEAD~2 HEAD --name-only //shows list of files that have been changed
+    § git difftool HEAD~2 HEAD --name-status //shows type of change in files (M, A), modification, Addded/New
 
 --look at history of commits--
-    git log //displays detailed information about all commits
-    git log --oneline //The most convenient way to see information about your previous commits
-    git log --oneline --reversed // Same as above but shows the frst commit at the top
-    git log --oneline --stat // shows all the commits and all the files that were changed in each commit.
-    git log --oneline -3 //shows the last 3 commits 
-    git log --oneline --author="NAME" //shows the commits submitted by named author
-    git log --oneline --after="2020-08-01" //shows all the commits submitted from 1st August 2020 onwards.
-    git log --oneline --grep="word" //shows all commits whch include the "word" in its commit message
-    git log --oneline -S"hello()" //shows all commits which added/removed hello() function in their content.
-        git log --oneline -S"hello()" --patch //It shows you in details which file added/removed hello()
-    git log --oneline commitID..CommitID2 //shows all commits between the two commit ids you passed
-    git log --oneline -- FILENAME.extention //shows all commits that modified FILENAME
-    git log --oneline --patch FILENAME.extention //shows all commits that modified FILENAME in detail
+    § git log //displays detailed information about all commits
+    § git log --oneline //The most convenient way to see information about your previous commits
+    § git log --oneline --reversed // Same as above but shows the frst commit at the top
+    § git log --oneline --stat // shows all the commits and all the files that were changed in each commit.
+    § git log --oneline -3 //shows the last 3 commits 
+    § git log --oneline --author="NAME" //shows the commits submitted by named author
+    § git log --oneline --after="2020-08-01" //shows all the commits submitted from 1st August 2020 onwards.
+    § git log --oneline --grep="word" //shows all commits whch include the "word" in its commit message
+    § git log --oneline -S"hello()" //shows all commits which added/removed hello() function in their content.
+        § git log --oneline -S"hello()" --patch //It shows you in details which file added/removed hello()
+    § git log --oneline commitID..CommitID2 //shows all commits between the two commit ids you passed
+    § git log --oneline -- FILENAME.extention //shows all commits that modified FILENAME
+    § git log --oneline --patch FILENAME.extention //shows all commits that modified FILENAME in detail
 
 --Customise your git log results--
     git log --pretty="format:""
@@ -107,20 +114,20 @@ Compares working directory against staging area // displays nothing if there is 
             %CcolorName //append this before any option to change the color it displays it with.
 
 --viewing commits in detail
-    git show commitID (you can type as little as the first 4 characters of the id, and it will display the commit)
-    git show HEAD // shows detailed last commit
-    git show HEAD~1 // shows the second to last commit in detail
-    git show HEAD~2 // shows the third to last commit etc..
+    § git show commitID (you can type as little as the first 4 characters of the id, and it will display the commit)
+    § git show HEAD // shows detailed last commit
+    § git show HEAD~1 // shows the second to last commit in detail
+    § git show HEAD~2 // shows the third to last commit etc..
 
 --to see all the files that exist with a commit--
-        git ls-tree HEAD~1 //of course you can list any num on HEAD to see different commits
+        § git ls-tree HEAD~1 //of course you can list any num on HEAD to see different commits
             NOTE// Files are represented with the word 'blob' and folders are represented with 'tree'
 
 --to see the contents of file from a commit--
     Take the ID of any file or folder from the git ls-tree command (shows above), and use it in the following command to display the contents of a file:
-        git show HEAD~1:FILENAME || HEAD~1:FilePath
+        § git show HEAD~1:FILENAME || HEAD~1:FilePath
         or
-        git show FILEID  
+        § git show FILEID  
 
 --to see all the people who contributed to the project--
 $ git shortlog
