@@ -127,3 +127,35 @@ Clones the repository to your local machine
         Two ways:
             1: You can simply push the busson on github which will be automatically displayed called 'Resolve conflicts" (easiest)
             2: The mainterner in charge of reviewing, will pull the latest version of the remote repo into their local machine, switch to the branch they need to review, merge it with the master branch and they will have to resolve the conflicts using their code editor as normal. They can also abort the merge if they choose to before they commit the changes. Once they finish the merge, they push the latest changes to the remote repo.
+
+
+
+
+--issues / milestones--
+    A better way to think of issues is tasks. You can set tasks for developers with issues. You create a new issue and assign someone to fix it. Issues can also be new features that are implemented. Finally, you can also assign issues to milestones. For example, a milestone can be the release version of a project (v2.0), you can assign any issue/task to a milestone, and once all of the issues have been completed, the milestone is complete. 
+
+--contributing to open source projects--
+    - First you need to fork the repository. So, you go to the repo whch you want to contribute to and push the fork button. 
+    - Then the repo will be copied and added to your own github repositories, at which point you can follow the regular proceedure (copy the URL and past it into the terminal with § git clode URL).
+    - Create a new branch and make the commits you want and link it with the remote repository. 
+    - When you are finished, you can create a pull request so that the moderator of the project can review and potentially merge the changes you made with the base repository master branch. 
+--Keeping your forked repo up to date with the original--
+    By default, your forked repository will not update itself whenever a commit is made to the original repo. So you have to go through the following steps in order to keep your forked one up to date:
+        1: § git remote add upstream URLOfOriginalRepo 
+            //this will add tracking to the original repository in addition to the forked one which should alsready be tracked. Note: upstream is simply a name you give it, but it's a common name. 
+        2: § git remote -v 
+            //shows the remote repos that are being tracked, at this point it should be your forked one and the original one. 
+        3: § git fetch upstream  
+            //this will fetch download the latest data from the upstream repo. 
+        4: § git switch master 
+            //switch to your local master
+        5: § git merge upstream/master
+            //merges the latest master branch of the upstream repo with your local master branch.
+        6: § git push
+            //pushes the changes into your forked repo.
+    --extra commands--
+        - § git remote rename upstream base //renames the remote repo from upstream to base 
+        - § git remote rm base 
+            //removes the remote repo named base. 
+    --tip--
+        It's a good idea to merge the local master branch into whatever other branch you're working on before creating a pull request, as you can resolve conflicts yourself so that when you create a pull request the moderator doesn't have to do as much work. Keep in mind, in this case you are switching to the feature branch, and merging the master with it, becuase you need to create a pull request with the feature branch, not the master! 
