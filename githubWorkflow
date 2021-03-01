@@ -127,7 +127,12 @@ Clones the repository to your local machine
         Two ways:
             1: You can simply push the busson on github which will be automatically displayed called 'Resolve conflicts" (easiest)
             2: The mainterner in charge of reviewing, will pull the latest version of the remote repo into their local machine, switch to the branch they need to review, merge it with the master branch and they will have to resolve the conflicts using their code editor as normal. They can also abort the merge if they choose to before they commit the changes. Once they finish the merge, they push the latest changes to the remote repo.
-
+    --pull request wprkflow--
+        A developer creates the feature in a dedicated branch in their local repo.
+        The developer pushes the branch to a public Bitbucket repository.
+        The developer files a pull request via Bitbucket.
+        The rest of the team reviews the code, discusses it, and alters it.
+        The project maintainer merges the feature into the official repository and closes the pull request
 
 
 

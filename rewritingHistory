@@ -49,13 +49,21 @@
 
 
 
---ammend earlier commit--
+--Interactive Rebase - ammend earlier commit--
     § git rebase -i HEAD~3
         //this will pop up your editor with a bunch of options for what you want to happen to each commit from the current HEAD to two commits down from HEAD (HEAD~3), HEAD is inclusive.. Options such as reword, pick, edit, drop etc.
     Options:
         edit: allows you to edit the content of the commit
+            //puts you on an interactive rebase in progress state
+            § git status // to view the current state
+            You can open your editor and your current working repo will be in the interactice state, you can make the edits you want and finally:
+                § git add .
+                § git commit -am "" //to commit your changes
+                § git log --oneline --all
+                    // great command to see what commit your HEAD is pointing to (current commit you are editing). 
+                § git rebase --continue
         reword: allows you to edit the message of the commit
-        squash: allows you to combine multiple commits into one. Combines the chosen commit into the previous commit on the list.
+        squash: allows you to combine multiple commits into one. Combines the chosen commit into the previous commit.
             NOTE: if the commits you want to squash are not next to eachother, you can simply re-order them in vscode so they are next to eachother. 
                 fixup: This is the same as squash, but doesn't let you write a new commit message, instead applies the commit message from the top commit in the list.
         drop: deletes a commit
