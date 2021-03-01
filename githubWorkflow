@@ -1,5 +1,11 @@
 Centralized Workflow:
 
+--storing your gitHub username and pass on mac--
+    § git credential-osxkeychain //checks if keychain is installed
+    § config --global credential.helper osxkeychain
+        --windows--
+            You need 'git credential manager for windows' //download and follow guide
+
 --push--
 Send your commits to the central repository.
 
@@ -65,9 +71,55 @@ Clones the repository to your local machine
                     //this will fetch and merge the latest commits from the remote repo which do not exist in your local branch. 
                 § git push // now push will work
 
+--remote branches for collaboration--
+    Regularely, all of your branches will be local, so you will have to merge them with your master branch and then push the latest version of your master branch to origin/master (remote repo). However, what if you want to collaborate with other people on a side branch?
+        You can do this by pushing your local branches to the remote repo with the following command:
+    § git push --set-upstream origin targetBranchName 
+    § git push -u origin targetBranchName //this is shorthand for --set-upstream
+        //this will push your local targetBranch, to the remote repo (origin) and create a branch in the remote repo origin that is directly linked to your local branch. 
+    § git push -d origin targetBranchName 
+        //delete the branch from the remote repo (not from local one) after you have merged it with master. 
+    § git branch -d targetBranchName  
+        //deletes branch from local repo. 
+    § git branch -vv 
+        //this will display the link that was created between your local and remote branch.
+    § git branch -r    
+        //this will display all the remote tracking branches. 
+    § git remote prune origin
+        //this removes any remote tracking branches that no longer exist on origin.
+--branches created in github--
+        § git pull -rebase
+            //fetches all the data from the remote repo (including branches that exist in remote repo but not in local repo), however you only receive remote tracking branches, so if you want to work on it, you have to 
+        § git switch -C targetBranchName remoteTrackingBranchName
+            This will create a local branch that is linked to the remote tracking branch that was downloaded from the fetch command. 
+    IMPORTANT: 
+        Once you create a remote tracking branch with § git push -u, you still have to use the regular push command to update the remote branch with your latest local commits, vise-versa for fetching the latest version of the remote branch, as colleagues of yours may have added commits to it. 
+            NOTE: If you try to push a branch to the remote repo with the normal push command, git will through an error saying "the current branch has no upstream (remote) branch linked to it"
+    --Updating remote branch with local changes--
+        Make sure your HEAD is on the branch that you want, and that it is linked to a remote tracking branch (See above). Then you simply type:
+            § git push 
+                //this is equivalent to § git push targetBranchName remoteTrackingBranchName
+
+
+
 --remote tags--
+    By default the push command doesn't track the tags you have added to your local repo, you have to explicitly push them. Github allows you to download the source code for each commit that is tagged. 
     § git push origin TAGNAME
-        //this will push the tagName to github, but will not mess with any commits. It will simply apply the tagName to the correct commit in the remote repository. 
+        //this will push the tagName to the origin branch in github, but will not mess with any commits. It will simply apply the tagName to the latest commit in the origin branch in the remote repository. 
     § git push origin --delete TAGNAME
         //this will remove the tag from the remote repository
             note: you still have to remove it from local repo.
+
+
+--github releases--
+    This feature allows you to release ready versions of your project. 
+        Navigate to tags-releases and set up the release. You can also add non binary files such as your compiled bundle file from webpack in this relase. 
+
+
+--pull request--
+    This submits a branch that you created and edited for review by one of the maintainers of the project. If they aprove your changes, they can merge the branch into the master branch.
+    - go to github
+    - select the branch you want
+    - click create pull request
+        base: master // this is the base branch that should be the master branch upon which the other branch will be merged into. 
+        compare: this is the branch that will be reviewed. 
