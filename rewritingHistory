@@ -1,0 +1,69 @@
+--Tips--
+    Do not rewrite public history. This means that if you have made a commit to the origin/master public repository, you should not rewrite the data of any of the commits pushed to origin/master, as it can mess with someone elses work who is currently working on the public version of the repo. 
+
+    You can rewrite your local history, as long as it hasn't been commited to the public repos master branch yet. 
+
+--RESET A COMMIT (only for local repo)--
+    $ git reset --hard HEAD~1 //you can also use the ID
+        This way, using "HEAD~1", you're telling Git to go back to the commit before the current HEAD revision — which should be the commit before the merge!
+    --hard / mixed / soft--
+        soft: 
+            local working directory and staging area changes not affected but reverts HEAD to a previous snapshot/commit
+        hard: 
+            local / staging area and master/HEAD will be converted to the previous snapshot/commit
+        mixed: 
+            any changes in local working directory not affected but the staging area and master branch is reverted to a previous snapshot. 
+        --undouing a reset--
+            § git reflog || § git reflog branchName
+                //displays a full history of the branch, included "deleted" commits by using reset. 
+            § git reset --hard uniqueID
+                //you get the id from § git reflog command
+--REVERT A COMMIT (for non local repo)--
+    The reset example above is useful when you have NOT already pushed the merge to a remote repository. In such a case, you should consider a different solution. git revert will make sure that a new commit is created to revert the effects of that unwanted merge (so it will show up simply as a new commit). This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
+        Command:
+            $ git revert -m 1 <merge-commit-hash>
+                Options:
+                    -m 1 = master branch / -m 2 = targetBranch
+                        The -m 1 option tells Git that we want to keep the parent side of the merge (the master branch we had merged into), not the targetBranch.
+                    for the git reset example above, we had to provide the commit before the merge; when using git revert, however, we have to specify the actual merge commit's hash/id.
+
+--git revert--
+    § git revert HEAD
+        //creates a new commit that undos all the changes in the very last commit.
+    § git revert HEAD~1
+        //creates a new commit that undos all the changes made in the second to last commit.
+    § git revert --no-commit HEAD~3
+        //reverts the past 3 commits, and stages the changes so that you can make a single new commit in order to commit the changes. 
+
+--amend last commit--
+    If you need to change something small from your last commit, but it's not a bg enough change to warrant a completely new commit, you can ammend the last commit by staging the changes you want, and typing in the terminal:
+        - § git commit --amend -m 
+            // notice the --ammend, which will apply your change to the last commit that was made. 
+            If you simply want to modify your last commit message, that’s easy:
+    $ git commit --amend
+        This command above loads the previous commit message into an editor session, where you can make changes to the message, save those changes and exit. When you save and close the editor, the editor writes a new commit containing that updated commit message and makes it your new last commit.
+
+        If you want to change the actual content of your last commit, the process is similar — first make the changes you think you forgot, stage those changes, and the subsequent git commit --amend replaces that last commit with your new, improved commit.
+
+        You need to be careful with this technique because amending changes the SHA-1 of the commit. It’s like a very small rebase — don’t amend your last commit if you’ve already pushed it.
+
+
+
+--ammend earlier commit--
+    § git rebase -i commitID
+        //this will pop up your editor with a bunch of options for what you want to happen to each commit from the current HEAD to the chosen commitID (commitId is non inclusive). Options such as reword, pick, edit, drop etc.
+    Options:
+        edit: allows you to edit the content of the commit
+        reword: allows you to edit the message of the commit
+        squash: allows you to combine multiple commits into one. Combines the chosen commit into the previous commit on the list.
+            NOTE: if the commits you want to squash are not next to eachother, you can simply re-order them in vscode so they are next to eachother. 
+                fixup: This is the same as squash, but doesn't let you write a new commit message, instead applies the commit message from the top commit in the list.
+        drop: deletes a commit
+        Note: If there are conflicts:
+    § git difftool 
+        //select what you want to do with the conflicts
+    § git rebase --continue 
+        //continues with the rebase operation and goes to the next file. Do this whenever conflicts pop up.
+    § git log --oneine --all --graph    
+        //use this to check that rebase finished and HEAD is back on master. 
+    NOTE: You can use this tool to delete or edit past commits. If there are no conflicts, once you close your editor, it will finish the rebasing operatio automatically.

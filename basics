@@ -155,7 +155,7 @@ git clean -f FILENAME //deletes the specified file if it is not tracked
         $ git clean -f
             If you want to only delete untracked files in a certain subdirectory of your project, you can additionally specify a path:
         $ git clean -f folder/subfolder
-            By default, folders themselves will no be deleted. If you want to include them, you can use the "-d" flag:
+            By default, folders themselves will not be deleted. If you want to include them, you can use the "-d" flag:
         $ git clean -fd
             In some situations, you might also - in addition to untracked files - want to delete any ignored files. An example use case for this could be when you want to clean out a folder that contains build artifacts. Using the "-x" flag allows you to include ignored items:
         $ git clean -fx

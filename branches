@@ -116,12 +116,15 @@ After merging a branch, you shoudl DELETE it so it doesn't get confusing!
 --RESET A COMMIT (only for local repo)--
     $ git reset --hard HEAD~1 //you can also use the ID
         This way, using "HEAD~1", you're telling Git to go back to the commit before the current HEAD revision — which should be the commit before the merge!
-    --Hard / mixed / Soft--
-        Soft: local working directory and staging area changes not affected but revert HEAD to a previous snapshot/commit
-        Hard: local / staging area and master/HEAD will be converted to the previous snapshot/commit
-        mixed: any changes in local working directory not affected but the staging area and master branch is reverted to a previous snapshot. 
+    --hard / mixed / soft--
+        soft: 
+            local working directory and staging area changes not affected but reverts HEAD to a previous snapshot/commit
+        hard: 
+            local / staging area and master/HEAD will be converted to the previous snapshot/commit
+        mixed: 
+            any changes in local working directory not affected but the staging area and master branch is reverted to a previous snapshot. 
 --REVERT A COMMIT (for non local repo)--
-    The reset example above is useful when you have NOT already pushed the merge to a remote repository. In such a case, you should consider a different solution. git revert will make sure that a new commit is created to revert the effects of that unwanted merge (so it will show up smply as a new commit). This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
+    The reset example above is useful when you have NOT already pushed the merge to a remote repository. In such a case, you should consider a different solution. git revert will make sure that a new commit is created to revert the effects of that unwanted merge (so it will show up simply as a new commit). This is in contrast to git reset, where we effectively "remove" a commit from the history. That's also the reason why git revert is a better solution in cases where you've already pushed to a remote.
         Command:
             $ git revert -m 1 <merge-commit-hash>
                 Options:
@@ -129,6 +132,11 @@ After merging a branch, you shoudl DELETE it so it doesn't get confusing!
                         The -m 1 option tells Git that we want to keep the parent side of the merge (the master branch we had merged into), not the targetBranch.
                     for the git reset example above, we had to provide the commit before the merge; when using git revert, however, we have to specify the actual merge commit's hash/id.
 
+--git revert--
+    § git revert HEAD
+        //creates a new commit that undos all the changes in the very last commit.
+    § git revert HEAD~1
+        //creates a new commit that undos all the changes made in the second to last commit.
 
 --REBASE--
 Rebase is useful for keeping an easy to read linear history with your repo. 
