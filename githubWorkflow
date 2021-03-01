@@ -116,10 +116,14 @@ Clones the repository to your local machine
         Navigate to tags-releases and set up the release. You can also add non binary files such as your compiled bundle file from webpack in this relase. 
 
 
---pull request--
+--pull delete after this linerequest--
     This submits a branch that you created and edited for review by one of the maintainers of the project. If they aprove your changes, they can merge the branch into the master branch.
     - go to github
     - select the branch you want
     - click create pull request
         base: master // this is the base branch that should be the master branch upon which the other branch will be merged into. 
         compare: this is the branch that will be reviewed. 
+
+
+
+Creating a pull request branch to test a pull request
