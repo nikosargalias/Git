@@ -145,11 +145,33 @@ Rebase is useful for keeping an easy to read linear history with your repo.
         Let's say you have a 'feature' branch and a master branch, and they have diverged as commits have been made to both. You can rebase the 'feature' branch to the master branch so that it's starting point is changed to point to the latest commit of the master branch. Therefore if you were to merge them together, git would only need to do a fast-forward merge. 
             - § git switch 'featureBranch'
             - § git rebase master
-            - § resolve any conflicts by opening the conflicting files.
+                //you're telling git to rebase the base of the feature branch to the last commit on the master branch
+                -resolve any conflicts by opening the conflicting files--
+                § git mergetool
+                    //this launches the conflicting files in your default mergetool.
+                    NOTE: you only need to stage the changes, not commit them, using the rebase --continue command, will commit them by default
             - § git rebase --continue //resumes the reubase
-            - § git rebase --skip //skips the current conflicts 
+            - § git rebase --skip //skips the current commit
             - § git rebase --abort //aborts the rebase alltogether. 
-
+            FINALLY:
+                You have to merge the master with the feature branch    
+                § git switch master
+                § git merge master
+                    //now because there will be a linear history due to the rebase, you can do a simple fast forward merge from the master to the feature branch.
+--rebasing may casue multiple conflicts--
+Lets say that you create a feature branch, and since the creation of said feature branch, the master has added more commits. You want to rebase the master branch onto the feature branch so that the history of the feature branch is updated, and essentially the latest commit of the master branch becomes the base of the feature branch. This would allow for you to test your feature branch code to make sure it works with no bugs, and allow for a fast forward merge from the master to the feature as there will be a linear history. However, when you use rebasing, you will have to resolve conflicts on a commit-by-commit basis rather than resolving all of them in one massive merge commit. Picture it like this. 
+    Feature branch has 3 commits - commit1 - commit2 - commit3
+    Master branch has added a new commit since the feature was created.
+    You rebase master onto feature 
+        - commit1 of feature is checked aganst the latest master branch and conflicts resolved
+        - commit2 of feature is checked aganst the latest master branch and conflicts resolved
+        - commit3 of feature is checked aganst the latest master branch and conflicts resolved
+        now the history of feature branch will look like this:
+            master branch lastest commit - featureBranch commit1 - commit2 - commit3
+        now you can switch to master and merge feature onto master and it will simply do a fast forward merge and mimic the history of the feature branch:
+            master branch lastest commit - featureBranch commit1 - commit2 - commit3 (master HEAD has now moved here)
+    
+    This keeps your commits as focused as possible and makes for a clean project hhistory. 
 
 
 --bringing a commit from another branch into the master branch--
