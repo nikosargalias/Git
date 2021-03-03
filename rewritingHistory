@@ -59,7 +59,7 @@
             § git status // to view the current state
             You can open your editor and your current working repo will be in the interactice state, you can make the edits you want and finally:
                 § git add .
-                § git commit -am "" //to commit your changes
+                § git commit --ammend //ammend the current commit to apply your changes
                 § git log --oneline --all
                     // great command to see what commit your HEAD is pointing to (current commit you are editing). 
                 § git rebase --continue

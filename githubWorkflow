@@ -38,12 +38,14 @@ Copies the main repository in the cloud
         § git merge origin/master //there is a local branch under the name origin/master which always references the latest snapshop of the remote repository, so you simply have to merge that to your local one. 
 
 --git pull--
-    Pull effectively fetches and merges in one command rather than having to fetch the latest version of remote repo and then merge it. 
+    Pull effectively fetches and merges in one command rather than having to fetch the latest version of remote repo and then merge it. By default, pull only updates the current branch that you're on, not all other tracking branches (even if remote tracking branches exist). 
     There are two options with pull:
         § git pull 
             //fetches the latest version of remote repo and merges it with local master, this can create a three way merge is they have diverged or fast forward if they haven't.
         § git pull --rebase 
             //this rebases the local master branch on top of the remote origin/master - so the base of the local master branch becomes whatever the latest remote branch snapshop is. 
+        § git pull --all --rebase  
+            //updates all branches, not just the one you're on.
         How it works?
             Rebasing works by transferring each local commit to the updated master branch one at a time. This means that you catch merge conflicts on a commit-by-commit basis rather than resolving all of them in one massive merge commit. This keeps your commits as focused as possible and makes for a clean project history. In turn, this makes it much easier to figure out where bugs were introduced and, if necessary, to roll back changes with minimal impact on the project.
 
@@ -79,10 +81,12 @@ Copies the main repository in the cloud
         //this will display all the remote tracking branches. 
     § git remote prune origin
         //this removes any remote tracking branches that no longer exist on origin.
+            An alternative to this is:
+        § git fetch -p //this removed any remote branches that no longer exist on your local machine.
 --branches created on github--
         § git pull --rebase
             //fetches all the data from the remote repo (including branches that exist in remote repo but not in local repo), however you only receive remote tracking branches, so if you want to work on it, you have to 
-        § git switch -C targetBranchName remoteTrackingBranchName
+        § git switch -C targetBranchName origin/remoteTrackingBranchName
             This will create a local branch that is linked to the remote tracking branch that was downloaded from the fetch command. 
     IMPORTANT: 
         Once you create a remote tracking branch with § git push -u, you still have to use the regular push command to update the remote branch with your latest local commits, vise-versa for fetching the latest version of the remote branch, as colleagues of yours may have added commits to it. 
@@ -96,12 +100,15 @@ Copies the main repository in the cloud
 
 --remote tags--
     By default the push command doesn't track the tags you have added to your local repo, you have to explicitly push them. Github allows you to download the source code for each commit that is tagged. 
+    § git push --tags
+        //pushes all tags
     § git push origin TAGNAME
         //this will push the tagName to the origin branch in github, but will not mess with any commits. It will simply apply the tagName to the latest commit in the origin branch in the remote repository. 
     § git push origin --delete TAGNAME
         //this will remove the tag from the remote repository
             note: you still have to remove it from local repo.
-
+    § git tag -f tagName newCommitId 
+        //changes which commit a tag points to
 
 --github releases--
     This feature allows you to release ready versions of your project. 
@@ -136,6 +143,7 @@ Copies the main repository in the cloud
     - Then the repo will be copied and added to your own github repositories, at which point you can follow the regular proceedure (copy the URL and past it into the terminal with § git clode URL).
     - Create a new branch and make the commits you want and link it with the remote repository. 
     - When you are finished, you can create a pull request so that the moderator of the project can review and potentially merge the changes you made with the base repository master branch. 
+        //What a pull request does here is basically request to the upstream repository to merge your changes to the upstream repo. 
 --Keeping your forked repo up to date with the original--
     By default, your forked repository will not update itself whenever a commit is made to the original repo. So you have to go through the following steps in order to keep your forked one up to date:
         1: § git remote add upstream URLOfOriginalRepo 
