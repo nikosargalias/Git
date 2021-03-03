@@ -1,5 +1,3 @@
-Centralized Workflow:
-
 --storing your gitHub username and pass on mac--
     § git credential-osxkeychain //checks if keychain is installed
     § config --global credential.helper osxkeychain
@@ -11,17 +9,6 @@ Send your commits to the central repository.
 
 --pull--
 Bring in any unsynchronised commits from the centralised repo into your local repo that isn't synchronised in your local repo. You must resolve conflicts (if any), and push your resolved conflits to the centralised repo. 
-
-
---Intergration-Manager Workflow--
-    In this workflow, there is a maintainer of the main repository that reviews all the work done by contributors (other devs), and only the maintainer can push changes to the main repository. 
-    How it works?
-    - The main repository is forked (copied) in the cloud
-    - Then each contributor clones the forked repository to their local machines
-    - Then they push any changes to the forked repository. 
-    - Then the constributor sends a pull request to the maintainer of the project.
-        This is so that the maintainer can be notified that there are changes in the forked repo that they need to review.
-    - Finally the maintainer reviews changes in the forked repo and pushes them to the main repo if they are happy with them. 
 
 --fork--
 Copies the main repository in the cloud
