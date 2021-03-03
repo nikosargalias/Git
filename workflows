@@ -1,0 +1,22 @@
+--Centralized Workflow--
+    You have a central repository on github, and it gets updated with push commands, and each team member can download the latest snapshots using a pull request
+
+--Intergration-Manager Workflow--
+    In this workflow, there is a maintainer of the main repository that reviews all the work done by contributors (other devs), and only the maintainer can push changes to the main repository. 
+    How it works?
+    - The main repository is forked (copied) in the cloud
+    - Then each contributor clones the forked repository to their local machines
+    - Then they push any changes to the forked repository. 
+    - Then the constributor sends a pull request to the maintainer of the project.
+        This is so that the maintainer can be notified that there are changes in the forked repo that they need to review.
+    - Finally the maintainer reviews changes in the forked repo and pushes them to the main repo if they are happy with them. 
+
+--Feature Branch Workflow--
+    - Feature Branching is a logical extension of Centralized Workflow. The core idea behind the Feature Branch Workflow is that all feature development should take place in a dedicated branch instead of the master branch. This encapsulation makes it easy for multiple developers to work on a particular feature without disturbing the main codebase. It also means the master branch should never contain broken code, which is a huge advantage for continuous integration environments.
+    - It’s also a good idea to merge master into the feature branch and then resolve any conflicts. Then test the feature branch to make sure that it works with no errors. Finally merge the feature branch into master. There shouldn’t be any conflicts as you took care of them when merging the master branch into feature.   
+
+MERGING RECCOMENDATON - Back Merging
+    - You should rebase the master into feature, resolve any conflicts on a commit-bycommit basis. 
+        // This gives you the ability to test your feature branches code (post conflicts resolved) to make sure that it works with no bugs. 
+    - At this point the base of the feature branch will be the latest commit of the master branch. Then you do a simple fast forward merge from the master to the tip of the feature. 
+        // This will retain a simple and clean commit history. 
