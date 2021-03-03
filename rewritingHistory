@@ -9,11 +9,11 @@
         § git reset [option] HEAD //you can also reset the current changes in your local directory or staging area by using this command, but without reverting to the previous commit.
     --hard / mixed / soft--
         soft: 
-            local working directory and staging area changes not affected but reverts HEAD to a previous snapshot/commit
+            local working directory and staging area changes not affected but revert HEAD to the snapshot of the commit you chose with HEAD~num.
         hard: 
-            local / staging area and master/HEAD will be converted to the previous snapshot/commit
+            local, staging area and HEAD will be converted to the snapshot of the commit you chose with HEAD~num.
         mixed: 
-            any changes in local working directory not affected but the staging area and master branch is reverted to a previous snapshot. 
+            any changes in local working directory not affected but the staging area and master branch is reverted to the snapshot of the commit you chose with HEAD~num. 
         --undouing a reset--
             § git reflog || § git reflog branchName
                 //displays a full history of the branch, included "deleted" commits by using reset. 
