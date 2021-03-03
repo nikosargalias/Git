@@ -4,6 +4,15 @@
         --windows--
             You need 'git credential manager for windows' //download and follow guide
 
+--clone--
+Clones the repository to your local machine
+    to clone a repo copy the URL from the code button on github and paste in terminal:
+        § git clone URL //clones the github repo whenever your current directory is (use cd to change)
+        § git clone URL customName //same as above but choses a custom name for the local copy
+
+--origin/master--
+    When you clone a repo from github, it creates a remote tracking branch to the master branch of the remote repository. It names this branch origin/master. So your local master branch and the remote origin/master branch should be synchronised and reference the same commits. Of course you will be using the follwoing push and pul commands to update the remote with the latest version of your local master and visa-versa.
+
 --push--
 Send your commits to the central repository.
 
@@ -12,12 +21,6 @@ Bring in any unsynchronised commits from the centralised repo into your local re
 
 --fork--
 Copies the main repository in the cloud
-
---clone--
-Clones the repository to your local machine
-    to clone a repo copy the URL from the code button on github and paste in terminal:
-        § git clone URL //clones the github repo whenever your current directory is (use cd to change)
-        § git clone URL customName //same as above but choses a custom name for the local copy
 
 //Remote Repos & Branches
 --git remote--
