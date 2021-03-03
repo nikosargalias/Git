@@ -6,6 +6,7 @@
 --RESET A COMMIT (only for local repo)--
     $ git reset --hard HEAD~1 //you can also use the ID
         This way, using "HEAD~1", you're telling Git to go back to the commit before the current HEAD revision — which should be the commit before the merge!
+        § git reset [option] HEAD //you can also reset the current changes in your local directory or staging area by using this command, but without reverting to the previous commit.
     --hard / mixed / soft--
         soft: 
             local working directory and staging area changes not affected but reverts HEAD to a previous snapshot/commit
