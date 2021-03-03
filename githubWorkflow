@@ -79,8 +79,8 @@ Copies the main repository in the cloud
         //this will display all the remote tracking branches. 
     § git remote prune origin
         //this removes any remote tracking branches that no longer exist on origin.
---branches created in github--
-        § git pull -rebase
+--branches created on github--
+        § git pull --rebase
             //fetches all the data from the remote repo (including branches that exist in remote repo but not in local repo), however you only receive remote tracking branches, so if you want to work on it, you have to 
         § git switch -C targetBranchName remoteTrackingBranchName
             This will create a local branch that is linked to the remote tracking branch that was downloaded from the fetch command. 
